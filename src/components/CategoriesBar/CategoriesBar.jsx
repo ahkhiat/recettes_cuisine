@@ -7,6 +7,9 @@ const CategoriesBar = () => {
   const { categories, isLoaded, error } = useCategories(); 
   const location = useLocation();
 
+  if (!isLoaded) return <div>Loading categories...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
   return (
     <nav className="bg-slate-900 p-4">
       <div className="container mx-auto flex justify-between items-center">
@@ -16,15 +19,15 @@ const CategoriesBar = () => {
           {categories.map((categorie, index) => {
             const isActive = location.pathname === `/category/${categorie}`;
             return (
-                <Link
-                    key={index}
-                    to={`/category/${categorie}`}
-                    className={`text-white hover:text-gray-300 ${isActive ? 'text-blue-600' : ''}`}
-                    >
-                  {categorie}
-                </Link>
-            )
-        })}
+              <Link
+                key={index}
+                to={`/category/${categorie}`}
+                className={` hover:text-gray-300 ${isActive ? 'text-blue-600' : 'text-white'}`}
+              >
+                {categorie}
+              </Link>
+            );
+          })}
         </div>
 
         {/* Bouton burger pour les petits écrans */}
@@ -38,16 +41,20 @@ const CategoriesBar = () => {
 
       {/* Menu déroulant pour les petits écrans */}
       {isOpen && (
-        <div className="md:hidden bg-gray-700">
-          {categories.map((categorie, index) => (
-            <Link 
-              key={index} 
-              to={`/category/${categorie.strCategory}`} 
-              className="text-white hover:text-gray-300"
-            >
-              {categorie.strCategory}
-            </Link>
-          ))}
+        <div className="md:hidden bg-gray-700 space-y-2">
+          {categories.map((categorie, index) => {
+            const isActive = location.pathname === `/category/${categorie}`;
+            return (
+              <Link
+                key={index}
+                to={`/category/${categorie}`}
+                className={`block px-4 py-2 text-white hover:text-gray-300 ${isActive ? 'text-blue-600' : ''}`}
+                onClick={() => setIsOpen(false)} // Ferme le menu après clic
+              >
+                {categorie}
+              </Link>
+            );
+          })}
         </div>
       )}
     </nav>
