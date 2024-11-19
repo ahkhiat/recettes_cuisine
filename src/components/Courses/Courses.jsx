@@ -1,8 +1,23 @@
-import React from 'react'
+import { useDispatch, useSelector } from "react-redux"
+import { addIngredient } from "../../features/ingredientSlice"
 
-function Courses() {
+const Courses = () => {
+
+  const ingredients = useSelector((state)=>state.ingredients.value)
+
   return (
-    <div>Courses</div>
+    <>
+        <div>
+            <h2>Ingrédients ajoutés</h2>
+            <ul>
+                {ingredients.map((ingredient, index) => (
+                    <li key={index}>
+                        Recette ID : {ingredient.idMeal}, Date : {ingredient.date}, Quantité : {ingredient.quantity}
+                    </li>
+                ))}
+            </ul>
+        </div>
+    </>
   )
 }
 

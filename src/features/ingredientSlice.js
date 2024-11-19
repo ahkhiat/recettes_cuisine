@@ -10,7 +10,8 @@ export const ingredientSlice = createSlice({
     initialState,
     reducers : {
         addIngredient: (state, action) => {
-            state.value.push(action.payload)
+            const { recipeId, date, quantity } = action.payload
+            state.value.push({recipeId, date, quantity})
         },
         resetIngredients: (state) => {
             state.value = []
