@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import CategoriesBar from '../CategoriesBar/CategoriesBar';
+import BackButton from '../BackButton/BackButton';
 
 const ReceipePage = () => {
   const { idMeal } = useParams();
@@ -39,10 +40,12 @@ const ReceipePage = () => {
     }
   }
 
+
   return (
     <div>
     <CategoriesBar />
     <div className="container mx-auto p-4">
+      <BackButton />
     <h1 className="text-2xl font-bold mb-2 mt-2">{meal.strMeal}</h1>
 
       <div className="flex flex-col md:flex-row items-start mt-10">

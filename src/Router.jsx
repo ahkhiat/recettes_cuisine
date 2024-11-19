@@ -25,7 +25,6 @@ function Router() {
                     <Route path="/recette/:idMeal" element={<ReceipePage />} /> 
                     <Route path="/courses" element={<Courses />}></Route>
                     <Route path="/planning" element={<Planning />}></Route>
-                 
                 </Routes>
         </BrowserRouter>
 )

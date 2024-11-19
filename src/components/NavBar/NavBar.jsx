@@ -1,18 +1,41 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import SearchBar from '../SearchBar/SearchBar';
 
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [meals, setMeals] = useState([]);
+  const [error, setError] = useState(null);
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
+  const handleSearch = async (letter) => {
+    try {
+      const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${letter}`);
+      const data = await response.json();
+      if (data.meals) {
+        setMeals(data.meals);
+      } else {
+        setMeals([]);
+        alert('Aucun résultat trouvé.');
+      }
+    } catch (err) {
+      setError('Erreur lors de la recherche.');
+      console.error(err);
+    }
+  };
+
   return (
-    <nav className="bg-blue-200 p-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <img src="/assets/oil-tomatoes.jpg" className="w-72" alt="" />
+    <nav className="bg-blue-200 p-4 h-72 flex flex-col justify-between" style={{ 
+                                              backgroundImage: "url('/assets/cuisine.jpg')", 
+                                              backgroundSize: "cover"
+                                              }}>
+
+      <div className="container mx-auto flex justify-between">
+        {/* <img src="/assets/cuisine.jpg" className="w-72" alt="" /> */}
         <h1 className="text-black text-2xl"><strong>R</strong>ecipe<strong>I7</strong></h1>
 
         {/* Menu pour les grands écrans */}
@@ -42,6 +65,11 @@ const Navbar = () => {
           
         </div>
       )}
+      <div className="container mx-auto">
+        {/* <SearchBar onSearch={handleSearch} /> */}
+
+        {/* Activer cette searchBar avec Redux, de façon à ne pas faire de prop drilling ni de contexte */}
+      </div>
     </nav>
   );
 };
