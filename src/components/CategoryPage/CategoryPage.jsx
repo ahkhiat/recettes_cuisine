@@ -4,6 +4,7 @@ import CategoriesBar from '../CategoriesBar/CategoriesBar';
 import Modal from '../Modal/Modal';
 import Spinner from '../Spinner/Spinner';
 import useToggle from '../../utils/hooks/useToggle';
+import { useSelector } from 'react-redux';
 
 const CategoryPage = () => {
   const { categoryName } = useParams();  
@@ -13,6 +14,9 @@ const CategoryPage = () => {
 
   const [isModalOpen, toggleModal] = useToggle(false);
   const [selectedMeal, setSelectedMeal] = useState(null);
+
+  const ingredients = useSelector((state) => state.ingredients.value)
+  console.log(ingredients)
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -42,9 +46,9 @@ const CategoryPage = () => {
                     <img src={meal.strMealThumb} alt={meal.strMeal} className="w-full h-48 object-cover rounded-lg" />
                 </Link>
                 <div className="mt-5 flex justify-between items-center">
-                    <a href={`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${meal.idMeal}`} className="block">
+                      <Link to={`/recette/${meal.idMeal}`} className="block">
                         <h3 className="">{meal.strMeal}</h3>
-                    </a>
+                      </Link>
                     <button onClick={toggleModal} className="fa-solid fa-square-plus fa-xl">
                       {/* Bouton pour ouvrir la modale */}
                     </button>
