@@ -1,26 +1,76 @@
 import { useDispatch } from "react-redux";
-import { addIngredient } from "../../features/ingredientSlice";
-import { useState } from "react";
+import { addIngredient, createAddIngredient } from "../../features/ingredientSlice";
+import { useState, useEffect } from "react";
+import { addRecipe, createAddRecipe } from "../../features/recipeSlice";
 
-const Modal = ({ idMeal, onClose }) => {
+
+
+const Modal = ({ onClose, idMeal }) => {
     const dispatch = useDispatch();
-
-    // États locaux pour la date et la quantité
+    const [mealDetails, setMealDetails] = useState(null);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [date, setDate] = useState("");
-    const [quantity, setQuantity] = useState(1);
+    const [localIngredients, setLocalIngredients] = useState([]); // Stockage local des ingrédients
+   
+    useEffect(() => {
+        const fetchMealDetails = async () => {
+            try {
+                const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`);
+                const data = await response.json();
+                setMealDetails(data.meals[0]); 
+                console.log(data);
+                
+                setLoading(false);
 
-    const handleAddIngredient = () => {
-        if (date && quantity > 0) {
+                const ingredients = [];
+                for (let i = 1; i <= 20; i++) {
+                    const ingredient = data.meals[0][`strIngredient${i}`];
+                    if (ingredient) {
+                        ingredients.push(ingredient);
+                    }
+                }
+                setLocalIngredients(ingredients); 
+                console.log(ingredients);
+            } catch (error) {
+                setError(error);
+                setLoading(false);
+            }
+        };
+
+        if (idMeal) {
+            fetchMealDetails();
+        }
+    }, [idMeal]);
+
+    const handleAddRecipe = () => {
+        if (mealDetails && date) {
             dispatch(
-                addIngredient({
-                    idMeal,
-                    date,
-                    quantity,
-                })
+                createAddRecipe(
+                    mealDetails.strMeal,
+                    date 
+                )
             );
-            onClose(); // Fermer la modale après l'ajout
+            
+            for (let i = 1; i <= 20; i++) {
+                const ingredient = mealDetails[`strIngredient${i}`];
+                const measure = mealDetails[`strMeasure${i}`];
+    
+                if (ingredient && ingredient.trim() !== "") {
+                    dispatch(
+                        createAddIngredient(
+                            ingredient,  
+                            measure || "Quantité non définie", 
+                            date,
+                            idMeal  
+                        )
+                    );
+                }
+            }
+
+            onClose();
         } else {
-            alert("Veuillez remplir tous les champs !");
+            alert("Veuillez sélectionner une date !");
         }
     };
 
@@ -46,7 +96,7 @@ const Modal = ({ idMeal, onClose }) => {
                         Annuler
                     </button>
                     <button
-                        onClick={handleAddIngredient}
+                        onClick={handleAddRecipe}
                         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                     >
                         Ajouter

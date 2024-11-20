@@ -15,8 +15,15 @@ const CategoryPage = () => {
   const [isModalOpen, toggleModal] = useToggle(false);
   const [selectedMeal, setSelectedMeal] = useState(null);
 
-  const ingredients = useSelector((state) => state.ingredients.value)
-  console.log(ingredients)
+  // const ingredients = useSelector((state) => state.ingredients.value)
+  // console.log(ingredients)
+  const recipes = useSelector((state) => state.recipes.value)
+  console.log(recipes)
+
+  const handleOpenModal = (mealId) => {
+    setSelectedMeal(mealId); 
+    toggleModal(); 
+};
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -49,7 +56,7 @@ const CategoryPage = () => {
                       <Link to={`/recette/${meal.idMeal}`} className="block">
                         <h3 className="">{meal.strMeal}</h3>
                       </Link>
-                    <button onClick={toggleModal} className="fa-solid fa-square-plus fa-xl">
+                    <button onClick={()=>handleOpenModal(meal.idMeal)} className="fa-solid fa-square-plus fa-xl">
                       {/* Bouton pour ouvrir la modale */}
                     </button>
                 </div>
@@ -58,7 +65,7 @@ const CategoryPage = () => {
         </div>
         {/* Modale */}
         {isModalOpen && (
-        <Modal onClose={toggleModal}> 
+        <Modal onClose={toggleModal} idMeal={selectedMeal} > 
           <h2>Modale</h2>
           <button onClick={toggleModal}></button>
         </Modal>
