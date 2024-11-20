@@ -48,7 +48,8 @@ const Modal = ({ onClose, idMeal }) => {
             dispatch(
                 createAddRecipe(
                     mealDetails.strMeal,
-                    date 
+                    date, 
+                    idMeal
                 )
             );
             

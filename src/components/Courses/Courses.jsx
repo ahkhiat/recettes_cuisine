@@ -53,8 +53,8 @@ const Courses = () => {
                 Date : {ingredient.date} / 
                 <strong> {ingredient.name}</strong> - 
                 Quantité : {ingredient.measure} - 
-                Recette : {ingredient.idMeal}
-                {/* id: {ingredient.id} */}
+                idMeal : {ingredient.idMeal}
+                RecipeId: {ingredient.id}
                 <button 
                     className="fa-solid fa-xmark fa-xs bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white ms-2 py-2 px-1 border border-blue-500 hover:border-transparent rounded"
                     onClick={() => handleRemoveIngredient(ingredient.id)}
