@@ -34,9 +34,9 @@ const Navbar = () => {
                                               backgroundSize: "cover"
                                               }}>
 
-      <div className="container mx-auto flex justify-between">
+      <div className="container mx-auto flex justify-end">
         {/* <img src="/assets/cuisine.jpg" className="w-72" alt="" /> */}
-        <h1 className="text-black text-2xl"><strong>R</strong>ecipe<strong>I7</strong></h1>
+        {/* <h1 className="text-black text-2xl"><strong>R</strong>ecipe<strong>I7</strong></h1> */}
 
         {/* Menu pour les grands écrans */}
 
@@ -70,6 +70,8 @@ const Navbar = () => {
 
         {/* Activer cette searchBar avec Redux, de façon à ne pas faire de prop drilling ni de contexte */}
       </div>
+      <h1 className="text-black text-4xl flex self-center justify-self-center"><strong>R</strong>ecipes<strong>I7</strong></h1>
+
     </nav>
   );
 };

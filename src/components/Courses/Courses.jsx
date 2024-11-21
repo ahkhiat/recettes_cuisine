@@ -70,27 +70,6 @@ const Courses = () => {
       <div>
         <h2 className="text-xl font-bold mb-4">Ingrédients</h2>
         <ul className="list-disc pl-6">
-          {/*  
-          {sortedIngredients.length > 0 ? (
-            sortedIngredients.map((ingredient) => (
-              <li key={ingredient.id}>
-                Date : {ingredient.date} / 
-                <strong> {ingredient.name}</strong> - 
-                Quantité : {ingredient.measure} - 
-                // idMeal : {ingredient.idMeal} -  
-                // idRecipe: {ingredient.idRecipe} 
-                <button 
-                    className="fa-solid fa-xmark fa-xs bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white ms-2 py-2 px-1 border border-blue-500 hover:border-transparent rounded"
-                    onClick={() => handleRemoveIngredient(ingredient.id)}
-                >
-                </button>
-              </li>
-            ))
-          ) : (
-            <p>Aucun ingrédient ajouté pour l'instant.</p>
-          )}
-          */}
-
         {sortedIngredients.length > 0 ? (
             sortedIngredients.map((ingredient) => (
                 <li key={ingredient.id}>
@@ -121,16 +100,10 @@ const Courses = () => {
                                 }
                                 className="border p-1 rounded w-1/3"
                             />
-                            <button
-                                onClick={() => handleSaveIngredient(ingredient.id)}
-                                className="bg-green-500 text-white px-2 py-1 rounded ml-2"
-                            >
+                            <button onClick={() => handleSaveIngredient(ingredient.id)} className="bg-green-500 text-white px-2 py-1 rounded ml-2" >
                                 Sauvegarder
                             </button>
-                            <button
-                                onClick={() => setEditIngredientId(null)}
-                                className="bg-gray-300 px-2 py-1 rounded ml-2"
-                            >
+                            <button onClick={() => setEditIngredientId(null)} className="bg-gray-300 px-2 py-1 rounded ml-2" >
                                 Annuler
                             </button>
                         </div>
@@ -162,8 +135,6 @@ const Courses = () => {
         ) : (
             <p>Aucun ingrédient ajouté pour l'instant.</p>
         )}
-
-
         </ul>
       </div>
     </div>

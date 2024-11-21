@@ -17,12 +17,18 @@ export const recipeSlice = createSlice({
         },
         clearRecipes: (state) => {
             state.value = [];
-        }
+        },
+        updateRecipeDate: (state, action) => {
+            const { id, newDate } = action.payload;
+            const recipe = state.value.find((recipe) => recipe.id === id);
+            if (recipe) {
+                recipe.date = newDate;
+            }
+        },
     }
 })
 
 export const createAddRecipe = ( title, date, idMeal, idRecipe) => {
-    // const uniqueId = `${idMeal}-${title}-${date}-${new Date().getTime()}`
     return addRecipe({
         id: idRecipe, 
         title,
@@ -46,6 +52,6 @@ export const deleteRecipeAndIngredients = (recipeId) => async (dispatch, getStat
     }
 };
 
-export const { addRecipe, removeRecipe, clearRecipes } = recipeSlice.actions;
+export const { addRecipe, removeRecipe, clearRecipes, updateRecipeDate } = recipeSlice.actions;
 
 export default recipeSlice.reducer

@@ -1,8 +1,10 @@
-import dayGridPlugin from '@fullcalendar/daygrid'
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import FullCalendar from "@fullcalendar/react"
 import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
-import { deleteRecipeAndIngredients, removeRecipe } from '../../features/recipeSlice';
+import { deleteRecipeAndIngredients, updateRecipeDate } from '../../features/recipeSlice';
+import { updateIngredientDate } from '../../features/ingredientSlice';
 
 function Planning() {
 
@@ -40,13 +42,22 @@ function Planning() {
     }
   };
 
+  const handleEventDrop = (info) => {
+    const updatedRecipe = recipes.find((r) => r.id === info.event.id);
+    if (updatedRecipe) {
+      dispatch(updateRecipeDate({ id: updatedRecipe.id, newDate: info.event.startStr }));
+      dispatch(updateIngredientDate({ idRecipe: updatedRecipe.id, newDate: info.event.startStr }));
+    }
+  };
+
   return (
     <div>
     <FullCalendar 
-      plugins={[ dayGridPlugin ]} 
+      plugins={[ dayGridPlugin, interactionPlugin ]} 
       initialView="dayGridMonth" 
       events={events} 
       eventClick={showEvent} 
+      eventDrop={handleEventDrop}
       headerToolbar={{
         left: 'title',
         center: '',

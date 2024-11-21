@@ -25,6 +25,14 @@ export const ingredientSlice = createSlice({
                 state.value[index] = { ...state.value[index], name, date, measure };
             }
         },
+        updateIngredientDate: (state, action) => {
+            const { idRecipe, newDate } = action.payload;
+            state.value.forEach((ingredient) => {
+                if (ingredient.idRecipe === idRecipe) {
+                    ingredient.date = newDate;
+                }
+            });
+        }
     },
 })
 
@@ -41,6 +49,6 @@ export const createAddIngredient = (name, date, measure, idMeal, idRecipe) => {
     });
 };
 
-export const {addIngredient, removeIngredient, clearIngredients, updateIngredient} = ingredientSlice.actions
+export const {addIngredient, removeIngredient, clearIngredients, updateIngredient, updateIngredientDate} = ingredientSlice.actions
 
 export default ingredientSlice.reducer
