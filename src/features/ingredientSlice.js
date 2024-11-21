@@ -26,20 +26,29 @@ export const ingredientSlice = createSlice({
         clearIngredients: (state) => {
             state.value = []; 
         },
+        updateIngredient: (state, action) => {
+            const { id, name, date, measure } = action.payload;
+            const index = state.value.findIndex((ingredient) => ingredient.id === id);
+            if (index !== -1) {
+                state.value[index] = { ...state.value[index], name, date, measure };
+            }
+        },
     },
 })
 
-export const createAddIngredient = (name, date, measure = [], idMeal) => {
-    const uniqueId = `${idMeal}-${name}-${date}`;
+export const createAddIngredient = (name, date, measure, idMeal, idRecipe) => {
+    const uniqueId = `${idMeal}-${name}-${date}-${measure}-${new Date().getTime()}`;
     return addIngredient({
         id: uniqueId,
         name,
         date,
         measure,
-        idMeal
+        idMeal,
+        idRecipe,
+
     });
 };
 
-export const {addIngredient, removeIngredient, clearIngredients} = ingredientSlice.actions
+export const {addIngredient, removeIngredient, clearIngredients, updateIngredient} = ingredientSlice.actions
 
 export default ingredientSlice.reducer

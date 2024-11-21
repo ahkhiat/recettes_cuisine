@@ -20,10 +20,10 @@ export const recipeSlice = createSlice({
     }
 })
 
-export const createAddRecipe = ( title, date, idMeal) => {
-    const uniqueId = `${idMeal}-${title}-${date}-${new Date().getTime()}`
+export const createAddRecipe = ( title, date, idMeal, idRecipe) => {
+    // const uniqueId = `${idMeal}-${title}-${date}-${new Date().getTime()}`
     return addRecipe({
-        id: uniqueId, 
+        id: idRecipe, 
         title,
         date,
         idMeal

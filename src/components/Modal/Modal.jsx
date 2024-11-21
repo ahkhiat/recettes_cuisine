@@ -12,7 +12,8 @@ const Modal = ({ onClose, idMeal }) => {
     const [loading, setLoading] = useState(true);
     const [date, setDate] = useState("");
     const [localIngredients, setLocalIngredients] = useState([]); // Stockage local des ingrédients
-   
+
+
     useEffect(() => {
         const fetchMealDetails = async () => {
             try {
@@ -31,7 +32,6 @@ const Modal = ({ onClose, idMeal }) => {
                     }
                 }
                 setLocalIngredients(ingredients); 
-                console.log(ingredients);
             } catch (error) {
                 setError(error);
                 setLoading(false);
@@ -43,13 +43,17 @@ const Modal = ({ onClose, idMeal }) => {
         }
     }, [idMeal]);
 
-    const handleAddRecipe = () => {
+    function handleAddRecipe()  {
         if (mealDetails && date) {
+            const idRecipe = `${idMeal}-${mealDetails.strMeal}-${date}-${new Date().getTime()}`
+            console.log(idRecipe);
+            
             dispatch(
                 createAddRecipe(
                     mealDetails.strMeal,
                     date, 
-                    idMeal
+                    idMeal,
+                    idRecipe
                 )
             );
             
@@ -61,9 +65,10 @@ const Modal = ({ onClose, idMeal }) => {
                     dispatch(
                         createAddIngredient(
                             ingredient,  
-                            measure || "Quantité non définie", 
                             date,
-                            idMeal  
+                            measure || "Quantité non définie", 
+                            idMeal,
+                            idRecipe  
                         )
                     );
                 }
