@@ -2,6 +2,7 @@ import {  useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { removeRecipe } from "../../features/recipeSlice";
 import { removeIngredient, updateIngredient } from "../../features/ingredientSlice";
+import { deleteRecipeAndIngredients } from "../../features/recipeSlice";
 
 const Courses = () => {
 
@@ -24,8 +25,9 @@ const Courses = () => {
   const sortedIngredients = sortByDate(ingredients);
 
   const handleRemoveRecipe = (id) => {
-    dispatch(removeRecipe(id));
-    dispatch(removeIngredient(id));
+    // dispatch(removeRecipe(id));
+    // dispatch(removeIngredient(id));
+    dispatch(deleteRecipeAndIngredients(id)) // thunk
   };
 
   const handleRemoveIngredient = (id) => {

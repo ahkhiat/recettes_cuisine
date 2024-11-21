@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { removeIngredient } from "./ingredientSlice";
 
 const initialState = {
     value : []
@@ -28,6 +29,21 @@ export const createAddRecipe = ( title, date, idMeal, idRecipe) => {
         date,
         idMeal
     });
+};
+
+// Thunk
+export const deleteRecipeAndIngredients = (recipeId) => async (dispatch, getState) => {
+    try {
+        const ingredients = getState().ingredients.value.filter(
+            (ingredient) => ingredient.idRecipe === recipeId
+        );
+        ingredients.forEach((ingredient) => {
+            dispatch(removeIngredient(ingredient.id)); 
+        });
+        dispatch(removeRecipe(recipeId)); 
+    } catch (error) {
+        console.error("Erreur lors de la suppression de la recette et des ingrédients associés", error);
+    }
 };
 
 export const { addRecipe, removeRecipe, clearRecipes } = recipeSlice.actions;

@@ -2,7 +2,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import FullCalendar from "@fullcalendar/react"
 import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
-import { removeRecipe } from '../../features/recipeSlice';
+import { deleteRecipeAndIngredients, removeRecipe } from '../../features/recipeSlice';
 
 function Planning() {
 
@@ -35,7 +35,7 @@ function Planning() {
 
   const handleDeleteRecipe = () => {
     if (currentRecipe) {
-      dispatch(removeRecipe(currentRecipe.id)); 
+      dispatch(deleteRecipeAndIngredients(currentRecipe.id)); // Appel du thunk
       closeModal(); 
     }
   };

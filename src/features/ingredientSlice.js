@@ -5,14 +5,6 @@ const initialState = {
     value : []
 }
 
-// Fonction utilitaire pour combiner les mesures
-// const combineMeasures = (existingMeasure, newMeasure) => {
-//     if (!existingMeasure) return newMeasure;
-//     if (!newMeasure) return existingMeasure;
-  
-//     return `${existingMeasure} + ${newMeasure}`;
-//   };
-
 export const ingredientSlice = createSlice({
     name: "ingredients",
     initialState,
