@@ -1,6 +1,5 @@
 import {  useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
-import { removeRecipe } from "../../features/recipeSlice";
 import { removeIngredient, updateIngredient } from "../../features/ingredientSlice";
 import { deleteRecipeAndIngredients } from "../../features/recipeSlice";
 
@@ -16,7 +15,6 @@ const Courses = () => {
       measure: "",
   });
 
-
   const sortByDate = (array) => {
     return [...array].sort((a, b) => new Date(a.date) - new Date(b.date));
   };
@@ -25,8 +23,6 @@ const Courses = () => {
   const sortedIngredients = sortByDate(ingredients);
 
   const handleRemoveRecipe = (id) => {
-    // dispatch(removeRecipe(id));
-    // dispatch(removeIngredient(id));
     dispatch(deleteRecipeAndIngredients(id)) // thunk
   };
 
@@ -46,7 +42,6 @@ const Courses = () => {
     dispatch(updateIngredient({ id, ...editedIngredient }));
     setEditIngredientId(null); 
   };
-
 
   return (
     <div className="p-6">
@@ -120,7 +115,6 @@ const Courses = () => {
                                 onClick={() => handleEditIngredient(ingredient)}
                                 className="fa-solid fa-pencil fa-xs bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white ms-2 py-2 px-1 border border-blue-500 hover:border-transparent rounded"
                             >
-                                
                             </button>
                             <button
                                 onClick={() => handleRemoveIngredient(ingredient.id)}

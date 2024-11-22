@@ -1,46 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import CategoriesBar from '../CategoriesBar/CategoriesBar';
 import Modal from '../Modal/Modal';
 import Spinner from '../Spinner/Spinner';
 import useToggle from '../../utils/hooks/useToggle';
-import { useSelector } from 'react-redux';
 import { useGetMealsByCategoryQuery } from '../../utils/apiSlice'; 
 
 const CategoryPage = () => {
   const { categoryName } = useParams();  
-  // const [meals, setMeals] = useState([]);
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(null);
 
   const [isModalOpen, toggleModal] = useToggle(false);
   const [selectedMeal, setSelectedMeal] = useState(null);
   const { data, error, isLoading } = useGetMealsByCategoryQuery(categoryName);
 
-  // const ingredients = useSelector((state) => state.ingredients.value)
-  
-  // const recipes = useSelector((state) => state.recipes.value)
-  // console.log(recipes)
-
   const handleOpenModal = (mealId) => {
     setSelectedMeal(mealId); 
     toggleModal(); 
 };
-
-  // useEffect(() => {
-  //   const fetchMeals = async () => {
-  //     try {
-  //       const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`);
-  //       const data = await response.json();
-  //       setMeals(data.meals);  
-  //       setLoading(false);
-  //     } catch (error) {
-  //       setError(error);
-  //       setLoading(false);
-  //     }
-  //   };
-  //   fetchMeals();
-  // }, [categoryName]); 
 
   if (isLoading) return <Spinner />;
   if (error) return <div>Error: {error.message}</div>;
@@ -74,7 +50,7 @@ const CategoryPage = () => {
     //   )}
     //   </div>
 
-<div>
+    <div>
       <CategoriesBar />
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {data?.meals.map((meal) => (

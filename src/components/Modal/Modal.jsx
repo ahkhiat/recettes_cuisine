@@ -1,53 +1,19 @@
 import { useDispatch } from "react-redux";
-import { addIngredient, createAddIngredient } from "../../features/ingredientSlice";
-import { useState, useEffect } from "react";
-import { addRecipe, createAddRecipe } from "../../features/recipeSlice";
-
-
+import { createAddIngredient } from "../../features/ingredientSlice";
+import { useState } from "react";
+import { createAddRecipe } from "../../features/recipeSlice";
+import { useGetMealDetailsQuery } from "../../utils/apiSlice";
 
 const Modal = ({ onClose, idMeal }) => {
     const dispatch = useDispatch();
-    const [mealDetails, setMealDetails] = useState(null);
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
+   
     const [date, setDate] = useState("");
-    const [localIngredients, setLocalIngredients] = useState([]); // Stockage local des ingrédients
-
-
-    useEffect(() => {
-        const fetchMealDetails = async () => {
-            try {
-                const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`);
-                const data = await response.json();
-                setMealDetails(data.meals[0]); 
-                console.log(data);
-                
-                setLoading(false);
-
-                const ingredients = [];
-                for (let i = 1; i <= 20; i++) {
-                    const ingredient = data.meals[0][`strIngredient${i}`];
-                    if (ingredient) {
-                        ingredients.push(ingredient);
-                    }
-                }
-                setLocalIngredients(ingredients); 
-            } catch (error) {
-                setError(error);
-                setLoading(false);
-            }
-        };
-
-        if (idMeal) {
-            fetchMealDetails();
-        }
-    }, [idMeal]);
+    const { data, error, isLoading } = useGetMealDetailsQuery(idMeal);
+    const mealDetails = data?.meals[0];
 
     function handleAddRecipe()  {
         if (mealDetails && date) {
             const idRecipe = `${idMeal}-${mealDetails.strMeal}-${date}-${new Date().getTime()}`
-            console.log(idRecipe);
-            
             dispatch(
                 createAddRecipe(
                     mealDetails.strMeal,
@@ -56,7 +22,6 @@ const Modal = ({ onClose, idMeal }) => {
                     idRecipe
                 )
             );
-            
             for (let i = 1; i <= 20; i++) {
                 const ingredient = mealDetails[`strIngredient${i}`];
                 const measure = mealDetails[`strMeasure${i}`];
@@ -73,13 +38,18 @@ const Modal = ({ onClose, idMeal }) => {
                     );
                 }
             }
-
             onClose();
         } else {
             alert("Veuillez sélectionner une date !");
         }
     };
 
+    if (isLoading) {
+        return <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"><div>Chargement...</div></div>;
+    }
+    if (error) {
+        return <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"><div>Erreur : {error.message}</div></div>;
+    }
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-80">
