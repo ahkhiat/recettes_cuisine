@@ -14,9 +14,10 @@ const CategoryPage = () => {
 
   const [isModalOpen, toggleModal] = useToggle(false);
   const [selectedMeal, setSelectedMeal] = useState(null);
+  const { data, error, isLoading } = useGetMealsByCategoryQuery(categoryName);
 
   // const ingredients = useSelector((state) => state.ingredients.value)
-  // console.log(ingredients)
+  
   const recipes = useSelector((state) => state.recipes.value)
   console.log(recipes)
 
