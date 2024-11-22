@@ -1,14 +1,20 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import useCategories from '../../utils/hooks/useCategories';
+// import useCategories from '../../utils/hooks/useCategories';
+import { useGetCategoriesQuery } from '../../utils/apiSlice';
+
 
 const CategoriesBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { categories, isLoaded, error } = useCategories(); 
+  // const { categories, isLoaded, error } = useCategories(); 
   const location = useLocation();
 
-  if (!isLoaded) return <div>Loading categories...</div>;
+  const { data, error, isLoading } = useGetCategoriesQuery();
+
+  if (isLoading) return <div>Loading categories...</div>;
   if (error) return <div>Error: {error.message}</div>;
+
+  const categories = data?.categories?.map((cat) => cat.strCategory) || [];
 
   return (
     <nav className="bg-slate-900 p-4">
